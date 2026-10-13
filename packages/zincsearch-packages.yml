@@ -1,0 +1,23 @@
+generated: '2026-10-14'
+method: probed
+generator: harvest-packages.py
+source: registry metadata endpoints (registry.npmjs.org, pypi.org, rubygems.org, api.nuget.org, packagist.org, crates.io)
+ownership_rule: 'official: true only when the registry metadata (homepage, repository, author, URLs) names the provider''s domain (authentication/zincsearch-authentication.yml,
+  openobserve.ai, security/zincsearch-domain-security.yml, zinc.dev, zincsearch.com) or its accepted GitHub org.'
+packages:
+- name: zincsearch
+  registry: pypi
+  url: https://pypi.org/project/zincsearch/
+  language: Python
+  official: true
+  version: 1.0.0
+  published: '2024-09-25'
+  evidence: metadata names zinc.dev
+- name: zincsearch
+  registry: npm
+  url: https://www.npmjs.com/package/zincsearch
+  language: JavaScript
+  official: false
+  version: 0.0.5
+  published: '2022-04-04'
+  evidence: 'name match only: the metadata names neither the provider''s domain nor its GitHub org'

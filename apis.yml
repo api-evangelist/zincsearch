@@ -1,23 +1,92 @@
 aid: zincsearch
 name: ZincSearch
-description: 'ZincSearch is a company surfaced via the API Evangelist harvest backlog (source: market-gap:search-api)
-  and added to the network as a stub for full-pipeline profiling.'
+image: https://openobserve.ai/o2-seo-image.png
+description: ZincSearch is an open source, self-hosted, lightweight full-text search
+  engine written in Go (Apache 2.0) with an Elasticsearch-compatible ingestion and
+  search API, built by Zinc Labs. The company now develops OpenObserve as its successor,
+  and zincsearch.com redirects to openobserve.ai.
 url: https://raw.githubusercontent.com/api-evangelist/zincsearch/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:market-gap:search-api
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-10-14 (local-v5; was harvest)
 specificationVersion: '0.20'
 created: '2026-10-13'
-modified: '2026-10-13'
+modified: '2026-10-14'
 tags:
 - Company
-apis: []
+- Search
+- Full-Text Search
+- Open Source
+- Self-Hosted
+- Elasticsearch Compatible
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/zincsearch-agentic-access.yml
+- type: Spectral
+  url: rules/zincsearch-rules.yml
+- type: Vocabulary
+  url: vocabulary/zincsearch-vocabulary.yml
+- type: DataModel
+  url: data-model/zincsearch-data-model.yml
+- type: ErrorCatalog
+  url: errors/zincsearch-problem-types.yml
+- type: Conformance
+  url: conformance/zincsearch-conformance.yml
+- type: LLMsTxt
+  url: llms/zincsearch-llms.txt
+- type: WellKnown
+  url: well-known/zincsearch-well-known.yml
+- type: Hosts
+  url: hosts/zincsearch-hosts.yml
+- type: Vendors
+  url: vendors/zincsearch-vendors.yml
+- type: SDKs
+  url: packages/zincsearch-packages.yml
+- type: Packages
+  url: packages/zincsearch-packages.yml
+- type: Authentication
+  url: authentication/zincsearch-authentication.yml
+- type: DomainSecurity
+  url: security/zincsearch-domain-security.yml
 - type: Website
   url: https://zincsearch.com
+- type: Documentation
+  url: https://zincsearch-docs.zinc.dev/
+- type: GitHubRepository
+  url: https://github.com/zincsearch/zincsearch
+- type: GitHubOrganization
+  url: https://github.com/zincsearch
+apis:
+- aid: zincsearch:zincsearch-api
+  name: ZincSearch API
+  description: 'Self-hosted REST API for ZincSearch: index management, document ingestion
+    (single, bulk, multi), search, users, roles and permissions, plus Elasticsearch-compatible
+    endpoints under /es/. Uses HTTP Basic auth against the local instance (default
+    port 4080).'
+  humanURL: https://zincsearch-docs.zinc.dev/api/
+  baseURL: http://localhost:4080
+  tags:
+  - Search
+  - Full-Text Search
+  - Indexing
+  - Elasticsearch Compatible
+  properties:
+  - type: OpenAPI
+    url: openapi/zincsearch-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://raw.githubusercontent.com/zincsearch/zincsearch/main/docs/swagger.json
+  - type: Documentation
+    url: https://zincsearch-docs.zinc.dev/
+  - type: APIReference
+    url: https://zincsearch-docs.zinc.dev/api/
+x-enrichment:
+  status: enriched
+  pass: local-v5
+  date: '2026-10-14'

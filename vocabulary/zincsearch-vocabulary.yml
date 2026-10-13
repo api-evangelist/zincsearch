@@ -1,0 +1,40 @@
+generated: '2026-10-14'
+method: derived
+generator: derive-vocabulary.py
+source: openapi/zincsearch-openapi.yml
+vocabulary:
+  name: ZincSearch Domain Vocabulary
+  description: 'Terms declared by ZincSearch''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-14'
+  terms:
+  - term: Index
+    definition: 'Resource group in the contract; its operation POST /api/_analyze: Analyze'
+    tags:
+    - Resource Group
+    source: openapi/zincsearch-openapi.yml
+  - term: Document
+    definition: 'Resource group in the contract; its operation POST /api/_bulk: Bulk documents'
+    tags:
+    - Resource Group
+    source: openapi/zincsearch-openapi.yml
+  - term: User
+    definition: 'Resource group in the contract; its operation PUT /api/account: Update own name and/or password'
+    tags:
+    - Resource Group
+    source: openapi/zincsearch-openapi.yml
+  - term: Permission
+    definition: 'Resource group in the contract; its operation GET /api/permissions: List permissions'
+    tags:
+    - Resource Group
+    source: openapi/zincsearch-openapi.yml
+  - term: Role
+    definition: 'Resource group in the contract; its operation GET /api/role: List role'
+    tags:
+    - Resource Group
+    source: openapi/zincsearch-openapi.yml
+  - term: Search
+    definition: 'Resource group in the contract; its operation POST /api/{index}/_search: Search V1'
+    tags:
+    - Resource Group
+    source: openapi/zincsearch-openapi.yml

@@ -1,0 +1,1 @@
+{"resource":"https://cloud.openobserve.ai","authorization_servers":["https://auth.openobserve.ai/dex"],"scopes_supported":["openid","email","groups","profile","offline_access"],"bearer_methods_supported":["header"]}

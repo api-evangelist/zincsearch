@@ -1,0 +1,86 @@
+generated: '2026-10-14'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 7
+  own: 2
+  other_domain: 4
+  platform: 1
+  roles:
+  - api
+  - docs
+  - other
+  - source
+  - website
+hosts:
+- host: api.zincsearch.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: zincsearch.com
+  role: api
+  relation: own
+- host: cloud.openobserve.ai
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: openobserve.ai
+  role: other
+  relation: other-domain
+- host: github.com
+  found_by:
+  - pointer
+  - docs-index
+  types:
+  - GitHubRepository
+  - GitHubOrganization
+  serves:
+  - docs
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: openobserve.ai
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: openobserve.ai
+  role: other
+  relation: other-domain
+- host: short.openobserve.ai
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: openobserve.ai
+  role: other
+  relation: other-domain
+- host: zincsearch-docs.zinc.dev
+  found_by:
+  - pointer
+  - apis[]
+  types:
+  - Documentation
+  serves:
+  - docs
+  registrable_domain: zinc.dev
+  role: docs
+  relation: other-domain
+- host: zincsearch.com
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - Website
+  serves: []
+  registrable_domain: zincsearch.com
+  role: website
+  relation: own

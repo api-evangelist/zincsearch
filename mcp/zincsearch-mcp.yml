@@ -1,0 +1,214 @@
+generated: '2026-10-14'
+method: derived
+generator: derive-mcp-candidate.py
+source:
+- openapi/zincsearch-openapi.yml
+status: candidate
+deployment:
+  mode: none
+  auth: unknown
+  verified: probed
+note: 'No MCP server was found. The pre-flight posted tools/list to /mcp on api.zincsearch.com, zincsearch.com; verdict opaque (https://zincsearch.com/mcp
+  answered 403: the edge authenticates before it routes, which proves nothing either way). Candidate tools below are derived from the 46 operation(s)
+  in the provider''s own OpenAPI (40 listed); they describe what a server WOULD expose, not one that exists.'
+tools:
+- name: analyze
+  operationId: Analyze
+  method: POST
+  path: /api/_analyze
+  description: Analyze
+- name: bulk
+  operationId: Bulk
+  method: POST
+  path: /api/_bulk
+  description: Bulk documents
+- name: bulkv2
+  operationId: Bulkv2
+  method: POST
+  path: /api/_bulkv2
+  description: Bulkv2 documents
+- name: update_account
+  operationId: UpdateAccount
+  method: PUT
+  path: /api/account
+  description: Update own name and/or password
+- name: list_indexes
+  operationId: ListIndexes
+  method: GET
+  path: /api/index
+  description: List indexes
+- name: create_index
+  operationId: CreateIndex
+  method: POST
+  path: /api/index
+  description: Create index
+- name: get_index
+  operationId: GetIndex
+  method: GET
+  path: /api/index/{index}
+  description: Get index metadata
+- name: delete_index
+  operationId: DeleteIndex
+  method: DELETE
+  path: /api/index/{index}
+  description: Delete index
+- name: refresh
+  operationId: Refresh
+  method: POST
+  path: /api/index/{index}/refresh
+  description: Resfresh index
+- name: index_name_list
+  operationId: IndexNameList
+  method: GET
+  path: /api/index_name
+  description: List index Name
+- name: login
+  operationId: Login
+  method: POST
+  path: /api/login
+  description: Login
+- name: list_permissions
+  operationId: ListPermissions
+  method: GET
+  path: /api/permissions
+  description: List permissions
+- name: list_roles
+  operationId: ListRoles
+  method: GET
+  path: /api/role
+  description: List role
+- name: create_role
+  operationId: CreateRole
+  method: POST
+  path: /api/role
+  description: Create role
+- name: delete_role
+  operationId: DeleteRole
+  method: DELETE
+  path: /api/role/{id}
+  description: Delete role
+- name: list_users
+  operationId: ListUsers
+  method: GET
+  path: /api/user
+  description: List user
+- name: update_user
+  operationId: UpdateUser
+  method: PUT
+  path: /api/user
+  description: Update user
+- name: create_user
+  operationId: CreateUser
+  method: POST
+  path: /api/user
+  description: Create user
+- name: delete_user
+  operationId: DeleteUser
+  method: DELETE
+  path: /api/user/{id}
+  description: Delete user
+- name: analyze_index
+  operationId: AnalyzeIndex
+  method: POST
+  path: /api/{index}/_analyze
+  description: Analyze
+- name: index_document
+  operationId: IndexDocument
+  method: POST
+  path: /api/{index}/_doc
+  description: Create or update document
+- name: get_document
+  operationId: GetDocument
+  method: GET
+  path: /api/{index}/_doc/{id}
+  description: get document with id
+- name: index_document_with_id
+  operationId: IndexDocumentWithID
+  method: PUT
+  path: /api/{index}/_doc/{id}
+  description: Create or update document with id
+- name: delete_document
+  operationId: DeleteDocument
+  method: DELETE
+  path: /api/{index}/_doc/{id}
+  description: Delete document
+- name: get_mapping
+  operationId: GetMapping
+  method: GET
+  path: /api/{index}/_mapping
+  description: Get index mappings
+- name: set_mapping
+  operationId: SetMapping
+  method: PUT
+  path: /api/{index}/_mapping
+  description: Set index mappings
+- name: multi
+  operationId: Multi
+  method: POST
+  path: /api/{index}/_multi
+  description: Multi documents
+- name: search_v1
+  operationId: SearchV1
+  method: POST
+  path: /api/{index}/_search
+  description: Search V1
+- name: get_settings
+  operationId: GetSettings
+  method: GET
+  path: /api/{index}/_settings
+  description: Get index settings
+- name: set_settings
+  operationId: SetSettings
+  method: PUT
+  path: /api/{index}/_settings
+  description: Set index Settings
+- name: update_document
+  operationId: UpdateDocument
+  method: POST
+  path: /api/{index}/_update/{id}
+  description: Update document with id
+- name: add_or_remove_esalias
+  operationId: AddOrRemoveESAlias
+  method: POST
+  path: /es/_aliases
+  description: Add or remove index alias for compatible ES
+- name: esbulk
+  operationId: ESBulk
+  method: POST
+  path: /es/_bulk
+  description: ES bulk documents
+- name: list_templates
+  operationId: ListTemplates
+  method: GET
+  path: /es/_index_template
+  description: List index teplates
+- name: create_template
+  operationId: CreateTemplate
+  method: POST
+  path: /es/_index_template
+  description: Create update index template
+- name: get_template
+  operationId: GetTemplate
+  method: GET
+  path: /es/_index_template/{name}
+  description: Get index template
+- name: update_template
+  operationId: UpdateTemplate
+  method: PUT
+  path: /es/_index_template/{name}
+  description: Create update index template
+- name: delete_template
+  operationId: DeleteTemplate
+  method: DELETE
+  path: /es/_index_template/{name}
+  description: Delete template
+- name: msearch
+  operationId: MSearch
+  method: POST
+  path: /es/_msearch
+  description: Search V2 MultipleSearch for compatible ES
+- name: escreate_index
+  operationId: ESCreateIndex
+  method: PUT
+  path: /es/{index}
+  description: Create index for compatible ES
