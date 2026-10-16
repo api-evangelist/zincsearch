@@ -1,5 +1,5 @@
 generated: '2026-10-14'
-method: none
+method: searched
 source:
 - https://zapier.com/apps/zincsearch/integrations
 - https://n8n.io/integrations/zincsearch/
@@ -12,5 +12,29 @@ checked:
 - https://zapier.com/apps/zincsearch/integrations
 summary: null
 marketplace_apps: []
-edges: []
+edges:
+- partner_name: Elastic
+  partner: elastic
+  partner_match: shape-anchor
+  channel: provider-built
+  relationship: compatible
+  direction: provider-built
+  shape: elasticsearch-api
+  type: contract
+  degree: same-vocabulary-own-path
+  evidence_kind: ae-structural
+  evidence: https://github.com/api-evangelist/zincsearch/blob/main/openapi/zincsearch-openapi.yml
+  supported_operations:
+  - _aliases
+  - _analyze
+  - _bulk
+  - _delete_by_query
+  - _doc
+  - _mapping
+  - _msearch
+  - _search
+  note: 'OUR structural detection: the contract carries the anchor''s operation names and paths; the provider declares
+    nothing we read'
+  detected_by: sweep-shape-compat.py
+  first_seen: '2026-10-15'
 templates: []
