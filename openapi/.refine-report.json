@@ -1,0 +1,60 @@
+{
+  "provider": "zincsearch",
+  "sources": [
+    "_original/zincsearch-swagger.json",
+    "zincsearch-openapi.yml"
+  ],
+  "outputs": [
+    "zincsearch-document-api-openapi.yml",
+    "zincsearch-healthz-api-openapi.yml",
+    "zincsearch-index-api-openapi.yml",
+    "zincsearch-permission-api-openapi.yml",
+    "zincsearch-role-api-openapi.yml",
+    "zincsearch-search-api-openapi.yml",
+    "zincsearch-user-api-openapi.yml",
+    "zincsearch-version-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/zincsearch-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "zincsearch-swagger.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "zincsearch-swagger.json: tagged paths GET /healthz -> Healthz",
+    "zincsearch-swagger.json: tagged paths GET /version -> Version",
+    "zincsearch-swagger.json: declared missing tag: Document",
+    "zincsearch-swagger.json: declared missing tag: Healthz",
+    "zincsearch-swagger.json: declared missing tag: Index",
+    "zincsearch-swagger.json: declared missing tag: Permission",
+    "zincsearch-swagger.json: declared missing tag: Role",
+    "zincsearch-swagger.json: declared missing tag: Search",
+    "zincsearch-swagger.json: declared missing tag: User",
+    "zincsearch-swagger.json: declared missing tag: Version",
+    "zincsearch-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "zincsearch-openapi.yml: tagged paths GET /healthz -> Healthz",
+    "zincsearch-openapi.yml: tagged paths GET /version -> Version",
+    "zincsearch-openapi.yml: declared missing tag: Document",
+    "zincsearch-openapi.yml: declared missing tag: Healthz",
+    "zincsearch-openapi.yml: declared missing tag: Index",
+    "zincsearch-openapi.yml: declared missing tag: Permission",
+    "zincsearch-openapi.yml: declared missing tag: Role",
+    "zincsearch-openapi.yml: declared missing tag: Search",
+    "zincsearch-openapi.yml: declared missing tag: User",
+    "zincsearch-openapi.yml: declared missing tag: Version",
+    "tag 'Document' spans 2 source specs (zincsearch-swagger.json, zincsearch-openapi.yml): per-path servers applied",
+    "tag 'Healthz' spans 2 source specs (zincsearch-swagger.json, zincsearch-openapi.yml): per-path servers applied",
+    "tag 'Index' spans 2 source specs (zincsearch-swagger.json, zincsearch-openapi.yml): per-path servers applied",
+    "tag 'Permission' spans 2 source specs (zincsearch-swagger.json, zincsearch-openapi.yml): per-path servers applied",
+    "tag 'Role' spans 2 source specs (zincsearch-swagger.json, zincsearch-openapi.yml): per-path servers applied",
+    "tag 'Search' spans 2 source specs (zincsearch-swagger.json, zincsearch-openapi.yml): per-path servers applied",
+    "tag 'User' spans 2 source specs (zincsearch-swagger.json, zincsearch-openapi.yml): per-path servers applied",
+    "tag 'Version' spans 2 source specs (zincsearch-swagger.json, zincsearch-openapi.yml): per-path servers applied",
+    "apis.yml register: written (+8 apis, 8 total)"
+  ],
+  "skipped": [
+    "_original/zincsearch-swagger.yaml: archived document superseded by a larger archived document"
+  ]
+}

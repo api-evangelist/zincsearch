@@ -1,0 +1,58 @@
+openapi: 3.2.0
+info:
+  title: Zincsearch Version API
+  version: 1.0.0
+  contact:
+    name: Zinc Search
+    url: https://www.zincsearch.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  x-refined-note:
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Version across 2 of this provider''s published API definitions: zincsearch-swagger.json, zincsearch-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /
+- url: http://localhost:4080/
+tags:
+- name: Version
+paths:
+  /version:
+    get:
+      summary: Get version
+      operationId: Version
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.VersionResponse'
+      tags:
+      - Version
+    servers:
+    - url: /
+components:
+  schemas:
+    meta.VersionResponse:
+      type: object
+      properties:
+        branch:
+          type: string
+        build:
+          type: string
+        build_date:
+          type: string
+        commit_hash:
+          type: string
+        version:
+          type: string
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+x-refined-from:
+- zincsearch-swagger.json
+- zincsearch-openapi.yml

@@ -1,0 +1,282 @@
+openapi: 3.2.0
+info:
+  title: Zincsearch User API
+  version: 1.0.0
+  contact:
+    name: Zinc Search
+    url: https://www.zincsearch.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  x-refined-note:
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged User across 2 of this provider''s published API definitions: zincsearch-swagger.json, zincsearch-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /
+- url: http://localhost:4080/
+tags:
+- name: User
+paths:
+  /api/account:
+    put:
+      tags:
+      - User
+      summary: Update own name and/or password
+      operationId: UpdateAccount
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/auth.LoginUser'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth.UpdateAccountRequest'
+        description: Current password plus new name and/or new password
+        required: true
+    servers:
+    - url: /
+  /api/login:
+    post:
+      tags:
+      - User
+      summary: Login
+      operationId: Login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/auth.LoginResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth.LoginRequest'
+        description: Login credentials
+        required: true
+    servers:
+    - url: /
+  /api/user:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - User
+      summary: List user
+      operationId: ListUsers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/meta.User'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    put:
+      security:
+      - BasicAuth: []
+      tags:
+      - User
+      summary: Update user
+      operationId: UpdateUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseID'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.User'
+        description: User data
+        required: true
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - User
+      summary: Create user
+      operationId: CreateUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseID'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.User'
+        description: User data
+        required: true
+    servers:
+    - url: /
+  /api/user/{id}:
+    delete:
+      security:
+      - BasicAuth: []
+      tags:
+      - User
+      summary: Delete user
+      operationId: DeleteUser
+      parameters:
+      - description: User id
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseID'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    servers:
+    - url: /
+components:
+  schemas:
+    auth.LoginResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/auth.LoginUser'
+        validated:
+          type: boolean
+    auth.LoginUser:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+    meta.HTTPResponseID:
+      type: object
+      properties:
+        id:
+          type: string
+        message:
+          type: string
+    auth.UpdateAccountRequest:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        new_password:
+          type: string
+        password:
+          type: string
+    meta.User:
+      type: object
+      properties:
+        _id:
+          type: string
+        created_at:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+        salt:
+          type: string
+        updated_at:
+          type: string
+    auth.LoginRequest:
+      type: object
+      properties:
+        _id:
+          type: string
+        password:
+          type: string
+    meta.HTTPResponseError:
+      type: object
+      properties:
+        error:
+          type: string
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+x-refined-from:
+- zincsearch-swagger.json
+- zincsearch-openapi.yml

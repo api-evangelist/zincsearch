@@ -1,0 +1,924 @@
+openapi: 3.2.0
+info:
+  title: Zincsearch Search API
+  version: 1.0.0
+  contact:
+    name: Zinc Search
+    url: https://www.zincsearch.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  x-refined-note:
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Search across 2 of this provider''s published API definitions: zincsearch-swagger.json, zincsearch-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /
+- url: http://localhost:4080/
+tags:
+- name: Search
+paths:
+  /api/{index}/_search:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Search
+      summary: Search V1
+      operationId: SearchV1
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.SearchResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1.ZincQueryForSDK'
+        description: Query
+        required: true
+    servers:
+    - url: /
+  /es/_msearch:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Search
+      summary: Search V2 MultipleSearch for compatible ES
+      operationId: MSearch
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.SearchResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        description: Query
+        required: true
+    servers:
+    - url: /
+  /es/{index}/_delete_by_query:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Search
+      summary: Searches the index and deletes all matched documents
+      operationId: DeleteByQuery
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseDeleteByQuery'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.ZincQueryForSDK'
+        description: Query
+        required: true
+    servers:
+    - url: /
+  /es/{index}/_search:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Search
+      summary: Search V2 DSL for compatible ES
+      operationId: Search
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.SearchResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.ZincQueryForSDK'
+        description: Query
+        required: true
+    servers:
+    - url: /
+components:
+  schemas:
+    meta.QueryStringQuery:
+      type: object
+      properties:
+        analyzer:
+          type: string
+        boost:
+          type: number
+        default_field:
+          type: string
+        default_operator:
+          description: or(default), and
+          type: string
+        fields:
+          type: array
+          items:
+            type: string
+        query:
+          type: string
+    meta.AggregationHistogram:
+      type: object
+      properties:
+        extended_bounds:
+          $ref: '#/components/schemas/aggregation.HistogramBound'
+        field:
+          type: string
+        hard_bounds:
+          $ref: '#/components/schemas/aggregation.HistogramBound'
+        interval:
+          type: number
+        keyed:
+          type: boolean
+        min_doc_count:
+          type: integer
+        offset:
+          type: number
+        size:
+          type: integer
+    meta.TermQueryForSDK:
+      type: object
+      properties:
+        boost:
+          type: number
+        case_insensitive:
+          type: boolean
+        value:
+          type: string
+    meta.SimpleQueryStringQuery:
+      type: object
+      properties:
+        all_fields:
+          type: boolean
+        analyzer:
+          type: string
+        boost:
+          type: number
+        default_operator:
+          description: or(default), and
+          type: string
+        fields:
+          type: array
+          items:
+            type: string
+        query:
+          type: string
+    meta.Total:
+      type: object
+      properties:
+        value:
+          description: Count of documents returned
+          type: integer
+    meta.MatchNoneQuery:
+      type: object
+    meta.MatchQuery:
+      type: object
+      properties:
+        analyzer:
+          type: string
+        boost:
+          type: number
+        fuzziness:
+          description: auto, 1,2,3,n
+        operator:
+          description: or(default), and
+          type: string
+        prefix_length:
+          type: number
+        query:
+          type: string
+    v1.ZincQueryForSDK:
+      type: object
+      properties:
+        _source:
+          type: array
+          items:
+            type: string
+        aggs:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/v1.AggregationParams'
+        explain:
+          type: boolean
+        from:
+          type: integer
+        highlight:
+          $ref: '#/components/schemas/meta.Highlight'
+        max_results:
+          type: integer
+        query:
+          $ref: '#/components/schemas/v1.QueryParams'
+        search_type:
+          description: SearchType is the type of search to perform. Can be match, match_phrase, query_string, etc
+          type: string
+        sort_fields:
+          type: array
+          items:
+            type: string
+    meta.Aggregations:
+      type: object
+      properties:
+        aggs:
+          description: nested aggregations
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.Aggregations'
+        auto_date_histogram:
+          $ref: '#/components/schemas/meta.AggregationAutoDateHistogram'
+        avg:
+          $ref: '#/components/schemas/meta.AggregationMetric'
+        cardinality:
+          $ref: '#/components/schemas/meta.AggregationMetric'
+        count:
+          $ref: '#/components/schemas/meta.AggregationMetric'
+        date_histogram:
+          $ref: '#/components/schemas/meta.AggregationDateHistogram'
+        date_range:
+          $ref: '#/components/schemas/meta.AggregationDateRange'
+        histogram:
+          $ref: '#/components/schemas/meta.AggregationHistogram'
+        ip_range:
+          description: 'TODO: not implemented'
+          allOf:
+          - $ref: '#/components/schemas/meta.AggregationIPRange'
+        max:
+          $ref: '#/components/schemas/meta.AggregationMetric'
+        min:
+          $ref: '#/components/schemas/meta.AggregationMetric'
+        range:
+          $ref: '#/components/schemas/meta.AggregationRange'
+        sum:
+          $ref: '#/components/schemas/meta.AggregationMetric'
+        terms:
+          $ref: '#/components/schemas/meta.AggregationsTerms'
+        weighted_avg:
+          $ref: '#/components/schemas/meta.AggregationMetric'
+    v1.AggregationParams:
+      type: object
+      properties:
+        agg_type:
+          type: string
+        aggs:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/v1.AggregationParams'
+        date_ranges:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1.AggregationDateRange'
+        field:
+          type: string
+        ranges:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1.AggregationNumberRange'
+        size:
+          type: integer
+        weight_field:
+          description: Field name to be used for setting weight for primary field for weighted average aggregation
+          type: string
+    meta.MultiMatchQuery:
+      type: object
+      properties:
+        analyzer:
+          type: string
+        boost:
+          type: number
+        fields:
+          type: array
+          items:
+            type: string
+        minimum_should_match: {}
+        operator:
+          description: or(default), and
+          type: string
+        query:
+          type: string
+        type:
+          description: best_fields(default), most_fields, cross_fields, phrase, phrase_prefix, bool_prefix
+          type: string
+    meta.MatchAllQuery:
+      type: object
+    meta.Shards:
+      type: object
+      properties:
+        failed:
+          type: integer
+        skipped:
+          type: integer
+        successful:
+          type: integer
+        total:
+          type: integer
+    meta.ZincQueryForSDK:
+      type: object
+      properties:
+        _source:
+          description: true, false, ["field1", "field2.*"]
+          type: array
+          items:
+            type: string
+        aggs:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.Aggregations'
+        explain:
+          type: boolean
+        fields:
+          description: '["field1", "field2.*", {"field": "fieldName", "format": "epoch_millis"}]'
+          type: array
+          items:
+            type: string
+        from:
+          type: integer
+        highlight:
+          $ref: '#/components/schemas/meta.Highlight'
+        query:
+          $ref: '#/components/schemas/meta.QueryForSDK'
+        size:
+          type: integer
+        sort:
+          description: '"_score", ["+Year","-Year", {"Year": "desc"}, "Date": {"order": "asc"", "format": "yyyy-MM-dd"}}"}]'
+          type: array
+          items:
+            type: string
+        timeout:
+          type: integer
+        track_total_hits:
+          type: boolean
+    meta.RangeQueryForSDK:
+      type: object
+      properties:
+        boost:
+          type: number
+        format:
+          description: Date format used to convert date values in the query.
+          type: string
+        gt:
+          description: string, float64
+          type: string
+        gte:
+          description: string, float64
+          type: string
+        lt:
+          description: string, float64
+          type: string
+        lte:
+          description: string, float64
+          type: string
+        time_zone:
+          description: used to convert date values in the query to UTC.
+          type: string
+    meta.Highlight:
+      type: object
+      properties:
+        fields:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.Highlight'
+        fragment_size:
+          type: integer
+        number_of_fragments:
+          type: integer
+        post_tags:
+          type: array
+          items:
+            type: string
+        pre_tags:
+          type: array
+          items:
+            type: string
+    meta.ExistsQuery:
+      type: object
+      properties:
+        field:
+          type: string
+    aggregation.HistogramBound:
+      type: object
+      properties:
+        max:
+          description: maximum
+          type: number
+        min:
+          description: minimum
+          type: number
+    meta.AggregationRange:
+      type: object
+      properties:
+        field:
+          type: string
+        keyed:
+          type: boolean
+        ranges:
+          type: array
+          items:
+            $ref: '#/components/schemas/meta.Range'
+    meta.TermsQuery:
+      type: object
+      additionalProperties: true
+    meta.QueryForSDK:
+      type: object
+      properties:
+        bool:
+          description: .
+          allOf:
+          - $ref: '#/components/schemas/meta.BoolQueryForSDK'
+        exists:
+          description: .
+          allOf:
+          - $ref: '#/components/schemas/meta.ExistsQuery'
+        fuzzy:
+          description: simple, PrefixQuery
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.FuzzyQuery'
+        ids:
+          description: .
+          allOf:
+          - $ref: '#/components/schemas/meta.IdsQuery'
+        match:
+          description: simple, MatchQuery
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.MatchQuery'
+        match_all:
+          description: just set or null
+          allOf:
+          - $ref: '#/components/schemas/meta.MatchAllQuery'
+        match_bool_prefix:
+          description: simple, MatchBoolPrefixQuery
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.MatchBoolPrefixQuery'
+        match_none:
+          description: just set or null
+          allOf:
+          - $ref: '#/components/schemas/meta.MatchNoneQuery'
+        match_phrase:
+          description: simple, MatchPhraseQuery
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.MatchPhraseQuery'
+        match_phrase_prefix:
+          description: simple, MatchPhrasePrefixQuery
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.MatchPhrasePrefixQuery'
+        multi_match:
+          description: .
+          allOf:
+          - $ref: '#/components/schemas/meta.MultiMatchQuery'
+        prefix:
+          description: .
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.PrefixQuery'
+        query_string:
+          description: .
+          allOf:
+          - $ref: '#/components/schemas/meta.QueryStringQuery'
+        range:
+          description: simple, FuzzyQuery
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.RangeQueryForSDK'
+        regexp:
+          description: simple, FuzzyQuery
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.RegexpQuery'
+        simple_query_string:
+          description: .
+          allOf:
+          - $ref: '#/components/schemas/meta.SimpleQueryStringQuery'
+        term:
+          description: simple, TermQuery
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.TermQueryForSDK'
+        terms:
+          description: .
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.TermsQuery'
+        wildcard:
+          description: simple, WildcardQuery
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.WildcardQuery'
+    meta.Hits:
+      type: object
+      properties:
+        hits:
+          type: array
+          items:
+            $ref: '#/components/schemas/meta.Hit'
+        max_score:
+          type: number
+        total:
+          $ref: '#/components/schemas/meta.Total'
+    meta.AggregationResponse:
+      type: object
+      properties:
+        buckets:
+          description: slice or map
+        interval:
+          description: support for auto_date_histogram_aggregation
+          type: string
+        value: {}
+    meta.DateRange:
+      type: object
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+    meta.AggregationsTerms:
+      type: object
+      properties:
+        field:
+          type: string
+        order:
+          description: '{ "_count": "asc" }'
+          type: object
+          additionalProperties:
+            type: string
+        size:
+          type: integer
+    meta.SearchResponse:
+      type: object
+      properties:
+        _shards:
+          $ref: '#/components/schemas/meta.Shards'
+        aggregations:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.AggregationResponse'
+        error:
+          type: string
+        hits:
+          $ref: '#/components/schemas/meta.Hits'
+        timed_out:
+          type: boolean
+        took:
+          description: Time it took to generate the response
+          type: integer
+    meta.PrefixQuery:
+      type: object
+      properties:
+        boost:
+          type: number
+        value:
+          description: You can speed up prefix queries using the index_prefixes mapping parameter.
+          type: string
+    meta.HttpRetriesResponse:
+      type: object
+      properties:
+        bulk:
+          type: integer
+        search:
+          type: integer
+    meta.RegexpQuery:
+      type: object
+      properties:
+        boost:
+          type: number
+        flags:
+          type: string
+        value:
+          type: string
+    meta.BoolQueryForSDK:
+      type: object
+      properties:
+        filter:
+          description: query, [query1, query2]
+          type: array
+          items:
+            $ref: '#/components/schemas/meta.QueryForSDK'
+        minimum_should_match:
+          description: only for should
+          type: number
+        must:
+          description: query, [query1, query2]
+          type: array
+          items:
+            $ref: '#/components/schemas/meta.QueryForSDK'
+        must_not:
+          description: query, [query1, query2]
+          type: array
+          items:
+            $ref: '#/components/schemas/meta.QueryForSDK'
+        should:
+          description: query, [query1, query2]
+          type: array
+          items:
+            $ref: '#/components/schemas/meta.QueryForSDK'
+    meta.AggregationDateHistogram:
+      type: object
+      properties:
+        calendar_interval:
+          description: minute,hour,day,week,month,quarter,year
+          type: string
+        extended_bounds:
+          $ref: '#/components/schemas/aggregation.HistogramBound'
+        field:
+          type: string
+        fixed_interval:
+          description: ms,s,m,h,d
+          type: string
+        format:
+          description: format key_as_string
+          type: string
+        hard_bounds:
+          $ref: '#/components/schemas/aggregation.HistogramBound'
+        interval:
+          description: ms,s,m,h,d
+          type: string
+        keyed:
+          type: boolean
+        min_doc_count:
+          type: integer
+        size:
+          type: integer
+        time_zone:
+          description: time_zone
+          type: string
+    meta.WildcardQuery:
+      type: object
+      properties:
+        boost:
+          type: number
+        value:
+          type: string
+    meta.AggregationAutoDateHistogram:
+      type: object
+      properties:
+        buckets:
+          type: integer
+        field:
+          type: string
+        format:
+          description: format key_as_string
+          type: string
+        keyed:
+          type: boolean
+        minimum_interval:
+          description: minute,hour,day,week,month,quarter,year
+          type: string
+        time_zone:
+          description: time_zone
+          type: string
+    meta.FuzzyQuery:
+      type: object
+      properties:
+        boost:
+          type: number
+        fuzziness:
+          description: auto, 1,2,3,n
+        prefix_length:
+          type: number
+        value:
+          type: string
+    meta.IdsQuery:
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            type: string
+    meta.Range:
+      type: object
+      properties:
+        from:
+          type: number
+        to:
+          type: number
+    v1.QueryParams:
+      type: object
+      properties:
+        boost:
+          type: integer
+        end_time:
+          type: string
+        field:
+          type: string
+        start_time:
+          type: string
+        term:
+          type: string
+        terms:
+          description: For multi phrase query
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+    meta.HTTPResponseDeleteByQuery:
+      type: object
+      properties:
+        batches:
+          type: integer
+        deleted:
+          type: integer
+        failures:
+          type: array
+          items:
+            type: string
+        noops:
+          type: integer
+        requests_per_second:
+          type: integer
+        retries:
+          $ref: '#/components/schemas/meta.HttpRetriesResponse'
+        throttled_millis:
+          type: integer
+        throttled_until_millis:
+          type: integer
+        time_out:
+          type: boolean
+        took:
+          type: integer
+        total:
+          type: integer
+        version_conflicts:
+          type: integer
+    meta.AggregationIPRange:
+      type: object
+      properties:
+        field:
+          type: string
+        keyed:
+          type: boolean
+        ranges:
+          type: array
+          items:
+            $ref: '#/components/schemas/meta.IPRange'
+    v1.AggregationDateRange:
+      type: object
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+    meta.AggregationDateRange:
+      type: object
+      properties:
+        field:
+          type: string
+        format:
+          description: format the `to` and `from` values to `_as_string`, and used to format `keyed response`
+          type: string
+        keyed:
+          type: boolean
+        ranges:
+          description: refer
+          type: array
+          items:
+            $ref: '#/components/schemas/meta.DateRange'
+        time_zone:
+          description: refer
+          type: string
+    meta.Hit:
+      type: object
+      properties:
+        '@timestamp':
+          type: string
+        _id:
+          type: string
+        _index:
+          type: string
+        _score:
+          type: number
+        _source: {}
+        _type:
+          type: string
+        fields:
+          type: object
+          additionalProperties: true
+        highlight:
+          type: object
+          additionalProperties: true
+    meta.MatchPhraseQuery:
+      type: object
+      properties:
+        analyzer:
+          type: string
+        boost:
+          type: number
+        query:
+          type: string
+    v1.AggregationNumberRange:
+      type: object
+      properties:
+        from:
+          type: number
+        to:
+          type: number
+    meta.MatchPhrasePrefixQuery:
+      type: object
+      properties:
+        analyzer:
+          type: string
+        boost:
+          type: number
+        query:
+          type: string
+    meta.AggregationMetric:
+      type: object
+      properties:
+        field:
+          type: string
+        weight_field:
+          description: Field name to be used for setting weight for primary field for weighted average aggregation
+          type: string
+    meta.IPRange:
+      type: object
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+    meta.HTTPResponseError:
+      type: object
+      properties:
+        error:
+          type: string
+    meta.MatchBoolPrefixQuery:
+      type: object
+      properties:
+        analyzer:
+          type: string
+        boost:
+          type: number
+        query:
+          type: string
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+x-refined-from:
+- zincsearch-swagger.json
+- zincsearch-openapi.yml

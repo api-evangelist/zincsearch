@@ -1,0 +1,147 @@
+openapi: 3.2.0
+info:
+  title: Zincsearch Role API
+  version: 1.0.0
+  contact:
+    name: Zinc Search
+    url: https://www.zincsearch.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  x-refined-note:
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Role across 2 of this provider''s published API definitions: zincsearch-swagger.json, zincsearch-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /
+- url: http://localhost:4080/
+tags:
+- name: Role
+paths:
+  /api/role:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - Role
+      summary: List role
+      operationId: ListRoles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/meta.Role'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Role
+      summary: Create role
+      operationId: CreateRole
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseID'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.Role'
+        description: Role data
+        required: true
+    servers:
+    - url: /
+  /api/role/{id}:
+    delete:
+      security:
+      - BasicAuth: []
+      tags:
+      - Role
+      summary: Delete role
+      operationId: DeleteRole
+      parameters:
+      - description: Role id
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseID'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    servers:
+    - url: /
+components:
+  schemas:
+    meta.HTTPResponseError:
+      type: object
+      properties:
+        error:
+          type: string
+    meta.Role:
+      type: object
+      properties:
+        _id:
+          type: string
+        created_at:
+          type: string
+        name:
+          type: string
+        permission:
+          type: array
+          items:
+            type: string
+        role:
+          type: string
+        updated_at:
+          type: string
+    meta.HTTPResponseID:
+      type: object
+      properties:
+        id:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+x-refined-from:
+- zincsearch-swagger.json
+- zincsearch-openapi.yml

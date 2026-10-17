@@ -1,0 +1,450 @@
+openapi: 3.2.0
+info:
+  title: Zincsearch Document API
+  version: 1.0.0
+  contact:
+    name: Zinc Search
+    url: https://www.zincsearch.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  x-refined-note:
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Document across 2 of this provider''s published API definitions: zincsearch-swagger.json, zincsearch-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /
+- url: http://localhost:4080/
+tags:
+- name: Document
+paths:
+  /api/_bulk:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Document
+      summary: Bulk documents
+      operationId: Bulk
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseRecordCount'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        description: Query
+        required: true
+    servers:
+    - url: /
+  /api/_bulkv2:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Document
+      summary: Bulkv2 documents
+      operationId: Bulkv2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseRecordCount'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.JSONIngest'
+        description: Query
+        required: true
+    servers:
+    - url: /
+  /api/{index}/_doc:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Document
+      summary: Create or update document
+      operationId: IndexDocument
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseID'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+        description: Document
+        required: true
+    servers:
+    - url: /
+  /api/{index}/_doc/{id}:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - Document
+      summary: get document with id
+      operationId: GetDocument
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: ID
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.Hit'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    put:
+      security:
+      - BasicAuth: []
+      tags:
+      - Document
+      summary: Create or update document with id
+      operationId: IndexDocumentWithID
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: ID
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseID'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+        description: Document
+        required: true
+    delete:
+      security:
+      - BasicAuth: []
+      tags:
+      - Document
+      summary: Delete document
+      operationId: DeleteDocument
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: ID
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseDocument'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    servers:
+    - url: /
+  /api/{index}/_multi:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Document
+      summary: Multi documents
+      operationId: Multi
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseRecordCount'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        description: Query
+        required: true
+    servers:
+    - url: /
+  /api/{index}/_update/{id}:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Document
+      summary: Update document with id
+      operationId: UpdateDocument
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: ID
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseID'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+        description: Document
+        required: true
+    servers:
+    - url: /
+  /es/_bulk:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Document
+      summary: ES bulk documents
+      operationId: ESBulk
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        description: Query
+        required: true
+    servers:
+    - url: /
+components:
+  schemas:
+    meta.HTTPResponseRecordCount:
+      type: object
+      properties:
+        message:
+          type: string
+        record_count:
+          type: integer
+    meta.HTTPResponseID:
+      type: object
+      properties:
+        id:
+          type: string
+        message:
+          type: string
+    meta.Hit:
+      type: object
+      properties:
+        '@timestamp':
+          type: string
+        _id:
+          type: string
+        _index:
+          type: string
+        _score:
+          type: number
+        _source: {}
+        _type:
+          type: string
+        fields:
+          type: object
+          additionalProperties: true
+        highlight:
+          type: object
+          additionalProperties: true
+    meta.JSONIngest:
+      type: object
+      properties:
+        index:
+          type: string
+        records:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    meta.HTTPResponseDocument:
+      type: object
+      properties:
+        id:
+          type: string
+        index:
+          type: string
+        message:
+          type: string
+    meta.HTTPResponseError:
+      type: object
+      properties:
+        error:
+          type: string
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+x-refined-from:
+- zincsearch-swagger.json
+- zincsearch-openapi.yml

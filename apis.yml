@@ -63,25 +63,114 @@ common:
 - type: GitHubOrganization
   url: https://github.com/zincsearch
 apis:
-- aid: zincsearch:zincsearch-api
-  name: ZincSearch API
-  description: 'Self-hosted REST API for ZincSearch: index management, document ingestion
-    (single, bulk, multi), search, users, roles and permissions, plus Elasticsearch-compatible
-    endpoints under /es/. Uses HTTP Basic auth against the local instance (default
-    port 4080).'
+- aid: zincsearch:zincsearch-document-api
+  name: ZincSearch Document API
+  description: The Document API from ZincSearch — 7 operation(s) for document.
+  humanURL: https://zincsearch-docs.zinc.dev/api/
+  baseURL: http://localhost:4080
+  tags:
+  - Document
+  properties:
+  - type: OpenAPI
+    url: openapi/zincsearch-document-api-openapi.yml
+  - type: Documentation
+    url: https://zincsearch-docs.zinc.dev/
+  - type: APIReference
+    url: https://zincsearch-docs.zinc.dev/api/
+- aid: zincsearch:zincsearch-healthz-api
+  name: ZincSearch Healthz API
+  description: The Healthz API from ZincSearch — 1 operation(s) for healthz.
+  humanURL: https://zincsearch-docs.zinc.dev/api/
+  baseURL: http://localhost:4080
+  tags:
+  - Healthz
+  properties:
+  - type: OpenAPI
+    url: openapi/zincsearch-healthz-api-openapi.yml
+  - type: Documentation
+    url: https://zincsearch-docs.zinc.dev/
+  - type: APIReference
+    url: https://zincsearch-docs.zinc.dev/api/
+- aid: zincsearch:zincsearch-index-api
+  name: ZincSearch Index API
+  description: The Index API from ZincSearch — 14 operation(s) for index.
+  humanURL: https://zincsearch-docs.zinc.dev/api/
+  baseURL: http://localhost:4080
+  tags:
+  - Index
+  properties:
+  - type: OpenAPI
+    url: openapi/zincsearch-index-api-openapi.yml
+  - type: Documentation
+    url: https://zincsearch-docs.zinc.dev/
+  - type: APIReference
+    url: https://zincsearch-docs.zinc.dev/api/
+- aid: zincsearch:zincsearch-permission-api
+  name: ZincSearch Permission API
+  description: The Permission API from ZincSearch — 1 operation(s) for permission.
+  humanURL: https://zincsearch-docs.zinc.dev/api/
+  baseURL: http://localhost:4080
+  tags:
+  - Permission
+  properties:
+  - type: OpenAPI
+    url: openapi/zincsearch-permission-api-openapi.yml
+  - type: Documentation
+    url: https://zincsearch-docs.zinc.dev/
+  - type: APIReference
+    url: https://zincsearch-docs.zinc.dev/api/
+- aid: zincsearch:zincsearch-role-api
+  name: ZincSearch Role API
+  description: The Role API from ZincSearch — 2 operation(s) for role.
+  humanURL: https://zincsearch-docs.zinc.dev/api/
+  baseURL: http://localhost:4080
+  tags:
+  - Role
+  properties:
+  - type: OpenAPI
+    url: openapi/zincsearch-role-api-openapi.yml
+  - type: Documentation
+    url: https://zincsearch-docs.zinc.dev/
+  - type: APIReference
+    url: https://zincsearch-docs.zinc.dev/api/
+- aid: zincsearch:zincsearch-search-api
+  name: ZincSearch Search API
+  description: The Search API from ZincSearch — 4 operation(s) for search.
   humanURL: https://zincsearch-docs.zinc.dev/api/
   baseURL: http://localhost:4080
   tags:
   - Search
-  - Full-Text Search
-  - Indexing
-  - Elasticsearch Compatible
   properties:
   - type: OpenAPI
-    url: openapi/zincsearch-openapi.yml
+    url: openapi/zincsearch-search-api-openapi.yml
+  - type: Documentation
+    url: https://zincsearch-docs.zinc.dev/
+  - type: APIReference
+    url: https://zincsearch-docs.zinc.dev/api/
+- aid: zincsearch:zincsearch-user-api
+  name: ZincSearch User API
+  description: The User API from ZincSearch — 4 operation(s) for user.
+  humanURL: https://zincsearch-docs.zinc.dev/api/
+  baseURL: http://localhost:4080
+  tags:
+  - User
+  properties:
   - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://raw.githubusercontent.com/zincsearch/zincsearch/main/docs/swagger.json
+    url: openapi/zincsearch-user-api-openapi.yml
+  - type: Documentation
+    url: https://zincsearch-docs.zinc.dev/
+  - type: APIReference
+    url: https://zincsearch-docs.zinc.dev/api/
+- aid: zincsearch:zincsearch-version-api
+  name: ZincSearch Version API
+  description: The Version API from ZincSearch — 1 operation(s) for version.
+  humanURL: https://zincsearch-docs.zinc.dev/api/
+  baseURL: http://localhost:4080
+  tags:
+  - Version
+  properties:
+  - type: OpenAPI
+    url: openapi/zincsearch-version-api-openapi.yml
   - type: Documentation
     url: https://zincsearch-docs.zinc.dev/
   - type: APIReference

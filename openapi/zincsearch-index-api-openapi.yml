@@ -1,0 +1,977 @@
+openapi: 3.2.0
+info:
+  title: Zincsearch Index API
+  version: 1.0.0
+  contact:
+    name: Zinc Search
+    url: https://www.zincsearch.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  x-refined-note:
+  - x-ownership differs across the merged source definitions and was not carried
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Index across 2 of this provider''s published API definitions: zincsearch-swagger.json, zincsearch-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /
+- url: http://localhost:4080/
+tags:
+- name: Index
+paths:
+  /api/_analyze:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Analyze
+      operationId: Analyze
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/index.AnalyzeResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        description: Query
+        required: true
+    servers:
+    - url: /
+  /api/index:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: List indexes
+      operationId: ListIndexes
+      parameters:
+      - description: page num
+        name: page_num
+        in: query
+        schema:
+          type: integer
+      - description: page size
+        name: page_size
+        in: query
+        schema:
+          type: integer
+      - description: sort by
+        name: sort_by
+        in: query
+        schema:
+          type: string
+      - description: desc
+        name: desc
+        in: query
+        schema:
+          type: boolean
+      - description: name
+        name: name
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/index.IndexListResponse'
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Create index
+      operationId: CreateIndex
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseIndex'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.IndexSimple'
+        description: Index data
+        required: true
+    servers:
+    - url: /
+  /api/index/{index}:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Get index metadata
+      operationId: GetIndex
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/core.Index'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    delete:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Delete index
+      operationId: DeleteIndex
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseIndex'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    head:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Checks if the index exists
+      operationId: Exists
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponse'
+    servers:
+    - url: /
+  /api/index/{index}/refresh:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Resfresh index
+      operationId: Refresh
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    servers:
+    - url: /
+  /api/index_name:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: List index Name
+      operationId: IndexNameList
+      parameters:
+      - description: IndexName
+        name: name
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    servers:
+    - url: /
+  /api/{index}/_analyze:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Analyze
+      operationId: AnalyzeIndex
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/index.AnalyzeResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        description: Query
+        required: true
+    servers:
+    - url: /
+  /api/{index}/_mapping:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Get index mappings
+      operationId: GetMapping
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    put:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Set index mappings
+      operationId: SetMapping
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.Mappings'
+        description: Mapping
+        required: true
+    servers:
+    - url: /
+  /api/{index}/_settings:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Get index settings
+      operationId: GetSettings
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    put:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Set index Settings
+      operationId: SetSettings
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.IndexSettings'
+        description: Settings
+        required: true
+    servers:
+    - url: /
+  /es/_aliases:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Add or remove index alias for compatible ES
+      operationId: AddOrRemoveESAlias
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    servers:
+    - url: /
+  /es/_index_template:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: List index teplates
+      operationId: ListTemplates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/meta.Template'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Create update index template
+      operationId: CreateTemplate
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseTemplate'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.IndexTemplate'
+        description: Template data
+        required: true
+    servers:
+    - url: /
+  /es/_index_template/{name}:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Get index template
+      operationId: GetTemplate
+      parameters:
+      - description: Template
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.IndexTemplate'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    put:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Create update index template
+      operationId: UpdateTemplate
+      parameters:
+      - description: Template
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseTemplate'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.IndexTemplate'
+        description: Template data
+        required: true
+    delete:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Delete template
+      operationId: DeleteTemplate
+      parameters:
+      - description: Template
+        name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    servers:
+    - url: /
+  /es/{index}:
+    put:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Create index for compatible ES
+      operationId: ESCreateIndex
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/meta.IndexSimple'
+        description: Index data
+        required: true
+    head:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Checks if the index exists for compatible ES
+      operationId: EsExists
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponse'
+    servers:
+    - url: /
+  /es/{index}/_mapping:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Get index mappings for compatible ES
+      operationId: ESGetMapping
+      parameters:
+      - description: Index
+        name: index
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponse'
+    servers:
+    - url: /
+  /es/{target}/_alias/{target_alias}:
+    get:
+      security:
+      - BasicAuth: []
+      tags:
+      - Index
+      summary: Get index alias for compatible ES
+      operationId: GetESAliases
+      parameters:
+      - description: Target Index
+        name: target
+        in: path
+        schema:
+          type: string
+        required: true
+      - description: Target Alias
+        name: target_alias
+        in: path
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meta.HTTPResponseError'
+    servers:
+    - url: /
+components:
+  schemas:
+    meta.Analyzer:
+      type: object
+      properties:
+        char_filter:
+          type: array
+          items:
+            type: string
+        filter:
+          description: compatibility with es, alias for TokenFilter
+          type: array
+          items:
+            type: string
+        lowercase:
+          description: for type=pattern
+          type: boolean
+        pattern:
+          description: for type=pattern
+          type: string
+        stopwords:
+          description: for type=pattern,standard,stop
+          type: array
+          items:
+            type: string
+        token_filter:
+          type: array
+          items:
+            type: string
+        tokenizer:
+          type: string
+        type:
+          description: options for compatible
+          type: string
+    meta.Property:
+      type: object
+      properties:
+        aggregatable:
+          type: boolean
+        analyzer:
+          type: string
+        dims:
+          description: vector dimension, 0 accepts any
+          type: integer
+        fields:
+          description: 'Fields allow the same string value to be indexed in multiple ways for different purposes,
+
+            such as one field for search and a multi-field for sorting and aggregations,
+
+            or the same string value analyzed by different analyzers.
+
+            If the Fields property is defined within a sub-field, it will be ignored.
+
+
+            Currently, only "text" fields support the Fields parameter.'
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.Property'
+        format:
+          description: date format yyyy-MM-dd HH:mm:ss || yyyy-MM-dd || epoch_millis
+          type: string
+        highlightable:
+          type: boolean
+        index:
+          type: boolean
+        search_analyzer:
+          type: string
+        sortable:
+          type: boolean
+        store:
+          type: boolean
+        time_zone:
+          description: date format time_zone
+          type: string
+        type:
+          description: text, keyword, date, numeric, boolean, geo_point, vector
+          type: string
+    meta.IndexSimple:
+      type: object
+      properties:
+        mappings:
+          type: object
+          additionalProperties: true
+        name:
+          type: string
+        settings:
+          $ref: '#/components/schemas/meta.IndexSettings'
+        shard_num:
+          type: integer
+        storage_type:
+          type: string
+    meta.HTTPResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    index.IndexListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/core.Index'
+        page:
+          $ref: '#/components/schemas/meta.Page'
+    meta.HTTPResponseIndex:
+      type: object
+      properties:
+        index:
+          type: string
+        message:
+          type: string
+        storage_type:
+          type: string
+    index.AnalyzeResponseToken:
+      type: object
+      properties:
+        end_offset:
+          type: integer
+        keyword:
+          type: boolean
+        position:
+          type: integer
+        start_offset:
+          type: integer
+        token:
+          type: string
+        type:
+          type: string
+    meta.Page:
+      type: object
+      properties:
+        page_num:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
+    meta.TemplateTemplate:
+      type: object
+      properties:
+        mappings:
+          $ref: '#/components/schemas/meta.Mappings'
+        settings:
+          $ref: '#/components/schemas/meta.IndexSettings'
+    core.Index:
+      type: object
+    meta.IndexSettings:
+      type: object
+      properties:
+        analysis:
+          $ref: '#/components/schemas/meta.IndexAnalysis'
+        number_of_replicas:
+          type: integer
+        number_of_shards:
+          type: integer
+    meta.IndexAnalysis:
+      type: object
+      properties:
+        analyzer:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.Analyzer'
+        char_filter:
+          type: object
+          additionalProperties: true
+        filter:
+          description: compatibility with es, alias for TokenFilter
+          type: object
+          additionalProperties: true
+        token_filter:
+          type: object
+          additionalProperties: true
+        tokenizer:
+          type: object
+          additionalProperties: true
+    meta.IndexTemplate:
+      type: object
+      properties:
+        created_at:
+          type: string
+        index_patterns:
+          type: array
+          items:
+            type: string
+        priority:
+          description: highest priority is chosen
+          type: integer
+        template:
+          $ref: '#/components/schemas/meta.TemplateTemplate'
+        updated_at:
+          type: string
+    meta.HTTPResponseTemplate:
+      type: object
+      properties:
+        message:
+          type: string
+        template:
+          type: string
+    meta.HTTPResponseError:
+      type: object
+      properties:
+        error:
+          type: string
+    meta.Mappings:
+      type: object
+      properties:
+        properties:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/meta.Property'
+    meta.Template:
+      type: object
+      properties:
+        index_template:
+          $ref: '#/components/schemas/meta.IndexTemplate'
+        name:
+          type: string
+    index.AnalyzeResponse:
+      type: object
+      properties:
+        tokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/index.AnalyzeResponseToken'
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+x-refined-from:
+- zincsearch-swagger.json
+- zincsearch-openapi.yml
