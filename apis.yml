@@ -69,6 +69,8 @@ apis:
   humanURL: https://zincsearch-docs.zinc.dev/api/
   baseURL: http://localhost:4080
   tags:
+  - Documents
+  tags_raw:
   - Document
   properties:
   - type: OpenAPI
