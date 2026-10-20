@@ -9,7 +9,7 @@
   partner_name: Elastic
   type: contract
   channel: provider-built
-  evidence: https://github.com/api-evangelist/zincsearch/blob/main/openapi/zincsearch-openapi.yml
+  evidence: https://github.com/api-evangelist/zincsearch/blob/main/openapi/zincsearch-index-api-openapi.yml
   source: edge
   relationship: compatible
   status: not-a-workflow

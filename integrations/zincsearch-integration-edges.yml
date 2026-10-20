@@ -23,16 +23,11 @@ edges:
   type: contract
   degree: same-vocabulary-own-path
   evidence_kind: ae-structural
-  evidence: https://github.com/api-evangelist/zincsearch/blob/main/openapi/zincsearch-openapi.yml
+  evidence: https://github.com/api-evangelist/zincsearch/blob/main/openapi/zincsearch-index-api-openapi.yml
   supported_operations:
   - _aliases
   - _analyze
-  - _bulk
-  - _delete_by_query
-  - _doc
   - _mapping
-  - _msearch
-  - _search
   note: 'OUR structural detection: the contract carries the anchor''s operation names and paths; the provider declares
     nothing we read'
   detected_by: sweep-shape-compat.py
